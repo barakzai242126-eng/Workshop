@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>The Psychology of First Impressions · Workshop Lab</title>
+  <style>
+    /* ---------- GLOBAL RESET & DARK BLUE PALETTE ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    :root {
+      --bg-deep: #0a1628;
+      --bg-navy: #0f1f35;
+      --bg-card: #142a45;
+      --bg-elevated: #1a3352;
+      --border-soft: #2a4a6f;
+      --border-accent: #3a6a9a;
+      --text-primary: #e8f0fa;
+      --text-secondary: #a8c0d8;
+      --text-muted: #7a96b3;
+      --accent-blue: #4a90d9;
+      --accent-bright: #5ba3e8;
+      --accent-glow: rgba(74, 144, 217, 0.25);
+      --accent-teal: #3aafa9;
+      --accent-gold: #e8b86d;
+      --correct-green: #5cb85c;
+      --incorrect-rose: #d9534f;
+      --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 12px 40px rgba(0, 0, 0, 0.45);
+      --shadow-glow: 0 0 24px rgba(74, 144, 217, 0.15);
+      --border-radius-card: 24px;
+      --border-radius-btn: 40px;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1rem;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(74, 144, 217, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(58, 175, 169, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(15, 31, 53, 0.5) 0%, transparent 100%);
+    }
+
+    /* ---------- APP CONTAINER ---------- */
+    .app {
+      max-width: 960px;
+      width: 100%;
+      background-color: var(--bg-navy);
+      border-radius: 2.5rem;
+      box-shadow: var(--shadow-md);
+      padding: 1.5rem 1.5rem 2.5rem;
+      margin: 1rem 0;
+      border: 1px solid var(--border-soft);
+      transition: all 0.2s ease;
+    }
+
+    @media (min-width: 768px) {
+      .app {
+        padding: 2rem 2.5rem 2.5rem;
+      }
+    }
+
+    /* ---------- PROGRESS BAR (8 STAGES) ---------- */
+    .progress-stages {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.3rem 0.6rem;
+      margin-bottom: 2rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .stage-pill {
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 0.35rem 0.9rem;
+      border-radius: 40px;
+      background: var(--bg-card);
+      color: var(--text-muted);
+      white-space: nowrap;
+      transition: all 0.25s;
+      border: 1px solid transparent;
+    }
+
+    .stage-pill.active {
+      background: var(--accent-blue);
+      color: white;
+      border-color: var(--accent-bright);
+      font-weight: 600;
+      box-shadow: 0 2px 12px rgba(74, 144, 217, 0.4);
+    }
+
+    .stage-pill.completed {
+      background: var(--accent-teal);
+      color: white;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 600px) {
+      .stage-pill {
+        font-size: 0.6rem;
+        padding: 0.3rem 0.6rem;
+      }
+    }
+
+    /* ---------- SCREEN MANAGEMENT ---------- */
+    .screen {
+      display: none;
+      animation: fadeUp 0.35s ease forwards;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---------- TYPOGRAPHY & CARDS ---------- */
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      border-left: 5px solid var(--accent-blue);
+      padding-left: 1rem;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 1.5rem 0 0.8rem;
+    }
+
+    .subhead {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--border-radius-card);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      margin: 1.2rem 0;
+      border: 1px solid var(--border-soft);
+    }
+
+    .scenario-card {
+      background: linear-gradient(145deg, #142a45, #1a3352);
+      border-left: 6px solid var(--accent-blue);
+      box-shadow: var(--shadow-sm), var(--shadow-glow);
+    }
+
+    .result-box {
+      background: var(--bg-elevated);
+      padding: 1.2rem 1.5rem;
+      border-radius: 20px;
+      margin: 1.2rem 0;
+      font-weight: 500;
+      color: var(--text-primary);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      border: 1px solid var(--border-accent);
+    }
+
+    .demo-badge {
+      background: var(--accent-gold);
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: var(--bg-deep);
+      text-transform: uppercase;
+    }
+
+    /* ---------- BUTTONS ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: var(--accent-blue);
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.9rem 2rem;
+      border-radius: var(--border-radius-btn);
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 16px rgba(74, 144, 217, 0.35);
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      gap: 8px;
+      border: 1px solid transparent;
+      min-height: 52px;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: var(--accent-bright);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(74, 144, 217, 0.5);
+    }
+
+    .btn:disabled {
+      background: #2a4a6f;
+      color: var(--text-muted);
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent-bright);
+      border: 1.5px solid var(--accent-bright);
+      box-shadow: none;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: rgba(74, 144, 217, 0.12);
+      transform: translateY(-1px);
+      box-shadow: none;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.8rem;
+      align-items: center;
+    }
+
+    /* ---------- OPTION CARDS (voting) ---------- */
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin: 1.5rem 0;
+    }
+
+    .option-item {
+      background: var(--bg-card);
+      border-radius: 50px;
+      padding: 1rem 1.5rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      cursor: pointer;
+      transition: all 0.18s;
+      border: 1.5px solid var(--border-soft);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      font-size: 1rem;
+      color: var(--text-primary);
+    }
+
+    .option-item:hover {
+      background: var(--bg-elevated);
+      border-color: var(--border-accent);
+    }
+
+    .option-item.selected {
+      border-color: var(--accent-blue);
+      background: rgba(74, 144, 217, 0.18);
+      box-shadow: 0 0 16px rgba(74, 144, 217, 0.25);
+      font-weight: 600;
+    }
+
+    .option-letter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: var(--bg-elevated);
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--accent-bright);
+      border: 1px solid var(--border-accent);
+      flex-shrink: 0;
+    }
+
+    .option-item.selected .option-letter {
+      background: var(--accent-blue);
+      color: white;
+      border-color: var(--accent-bright);
+    }
+
+    @media (max-width: 480px) {
+      .option-item {
+        padding: 0.9rem 1.2rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    /* ---------- RESULT BARS (demo) ---------- */
+    .result-bars {
+      margin: 1.8rem 0;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      margin: 0.8rem 0;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .bar-label {
+      flex: 0 0 130px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .bar-track {
+      flex: 1 1 180px;
+      height: 26px;
+      background: var(--bg-card);
+      border-radius: 30px;
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-teal));
+      border-radius: 30px;
+      transition: width 0.7s cubic-bezier(0.2, 0.9, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: white;
+      min-width: 2rem;
+    }
+
+    .bar-value {
+      flex: 0 0 48px;
+      text-align: right;
+      font-weight: 600;
+      color: var(--accent-bright);
+    }
+
+    /* ---------- DETECTIVE CARDS ---------- */
+    .detective-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+      margin: 1.8rem 0;
+    }
+
+    .detective-card {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 1.2rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: all 0.2s;
+    }
+
+    .detective-card .statement {
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      min-height: 3rem;
+      line-height: 1.4;
+    }
+
+    .classify-buttons {
+      display: flex;
+      gap: 0.6rem;
+    }
+
+    .classify-btn {
+      flex: 1;
+      padding: 0.6rem 0;
+      border-radius: 40px;
+      border: 1.5px solid var(--border-accent);
+      background: var(--bg-elevated);
+      font-weight: 500;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: var(--text-secondary);
+      min-height: 44px;
+    }
+
+    .classify-btn:hover {
+      border-color: var(--accent-bright);
+      color: var(--text-primary);
+    }
+
+    .classify-btn.selected {
+      background: var(--accent-blue);
+      border-color: var(--accent-bright);
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(74, 144, 217, 0.4);
+    }
+
+    .detective-card.correct {
+      border-left: 8px solid var(--correct-green);
+      background: rgba(92, 184, 92, 0.1);
+      border-color: rgba(92, 184, 92, 0.4);
+    }
+
+    .detective-card.incorrect {
+      border-left: 8px solid var(--incorrect-rose);
+      background: rgba(217, 83, 79, 0.1);
+      border-color: rgba(217, 83, 79, 0.4);
+    }
+
+    .card-feedback {
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      min-height: 1.4rem;
+    }
+
+    .feedback-correct {
+      color: var(--correct-green);
+    }
+
+    .feedback-incorrect {
+      color: var(--incorrect-rose);
+    }
+
+    /* ---------- AMINA EXPERIMENT ---------- */
+    .experiment-step {
+      background: var(--bg-card);
+      border-radius: 24px;
+      padding: 1.8rem;
+      margin: 1.5rem 0;
+      border: 1px solid var(--border-accent);
+      box-shadow: var(--shadow-sm), var(--shadow-glow);
+    }
+
+    .step-label {
+      display: inline-block;
+      background: var(--accent-blue);
+      padding: 0.2rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 1rem;
+      color: white;
+    }
+
+    .quote {
+      font-style: italic;
+      color: var(--text-secondary);
+      border-left: 4px solid var(--accent-teal);
+      padding-left: 1rem;
+      margin: 1rem 0;
+      background: rgba(58, 175, 169, 0.06);
+      padding: 0.8rem 1rem;
+      border-radius: 0 12px 12px 0;
+    }
+
+    .transform-badge {
+      display: inline-block;
+      background: var(--accent-teal);
+      padding: 0.3rem 1.2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin: 0.8rem 0;
+      color: white;
+    }
+
+    /* ---------- OBSERVATION VS INTERPRETATION ---------- */
+    .obs-interp {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .obs-box, .interp-box {
+      flex: 1 1 220px;
+      border-radius: 20px;
+      padding: 1.5rem;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .obs-box {
+      background: rgba(58, 175, 169, 0.15);
+      color: var(--accent-teal);
+      border: 2px solid rgba(58, 175, 169, 0.5);
+    }
+
+    .interp-box {
+      background: rgba(232, 184, 109, 0.12);
+      color: var(--accent-gold);
+      border: 2px solid rgba(232, 184, 109, 0.4);
+    }
+
+    .arrow-vs {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      align-self: center;
+      padding: 0 0.5rem;
+    }
+
+    /* ---------- CLOSING ---------- */
+    .closing-message {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin: 1rem 0;
+      line-height: 1.2;
+      text-align: center;
+      background: linear-gradient(135deg, var(--accent-bright), var(--accent-teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .closing-sub {
+      font-size: 1.2rem;
+      text-align: center;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+
+    .influences-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.8rem 0;
+    }
+
+    .influence-pill {
+      background: var(--bg-card);
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 500;
+      color: var(--text-primary);
+      border: 1px solid var(--border-accent);
+    }
+
+    /* ---------- MISC ---------- */
+    .host-tag {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin: 1.5rem 0 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .host-tag strong {
+      color: var(--accent-bright);
+    }
+
+    .highlight {
+      background: linear-gradient(120deg, var(--accent-gold) 0%, var(--accent-gold) 40%, transparent 80%);
+      padding: 0.1rem 0.4rem;
+      font-weight: 600;
+      color: var(--bg-deep);
+    }
+
+    .italic-message {
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent-bright);
+      font-weight: 500;
+      margin: 0.8rem 0;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .mt-2 { margin-top: 1.8rem; }
+    .mb-1 { margin-bottom: 0.6rem; }
+
+    /* mobile fixes */
+    @media (max-width: 480px) {
+      h1 { font-size: 1.7rem; }
+      h2 { font-size: 1.3rem; }
+      .btn { width: 100%; padding: 0.9rem 1.2rem; }
+      .btn-group { flex-direction: column; }
+      .closing-message { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="app" id="app">
+  <!-- PROGRESS STAGES -->
+  <div class="progress-stages" id="progressStages">
+    <span class="stage-pill" data-stage="0">START</span>
+    <span class="stage-pill" data-stage="1">ROUND 1</span>
+    <span class="stage-pill" data-stage="2">ROUND 2</span>
+    <span class="stage-pill" data-stage="3">ROUND 3</span>
+    <span class="stage-pill" data-stage="4">ROUND 4</span>
+    <span class="stage-pill" data-stage="5">DETECTIVE</span>
+    <span class="stage-pill" data-stage="6">FINAL EXPERIMENT</span>
+    <span class="stage-pill" data-stage="7">REFLECTION</span>
+  </div>
+
+  <!-- ========== SCREEN 0: OPENING ========== -->
+  <div class="screen active" id="screen-start">
+    <div class="center" style="padding: 1rem 0 0.5rem;">
+      <h1>The Psychology of First Impressions</h1>
+      <p class="subhead" style="font-size:1.2rem; max-width:600px; margin:0.5rem auto 1.8rem;">
+        How quickly do we judge people — and what happens when we learn more?
+      </p>
+    </div>
+    <div class="card" style="text-align: center; background: var(--bg-card);">
+      <p style="font-size:1.1rem; margin-bottom:1.5rem;">Welcome to the First Impression Lab.<br>Make your choices, notice your assumptions, and see how the story can change.</p>
+      <div class="host-tag" style="margin:1.5rem 0 0.5rem; font-size:1rem;">
+        <span>🧑‍🏫 Hosted by <strong>Manahil Barakzai</strong> · Afghanistan Changemakers</span>
+      </div>
+      <button class="btn" id="startBtn" style="margin-top:1rem;">Start the Experience →</button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 1: ROUND 1 ========== -->
+  <div class="screen" id="screen-round1">
+    <h2>Round 1 — Instant Judgment 👀</h2>
+    <div class="card scenario-card">
+      <p style="font-size:1.1rem;">You walk into a new workshop and meet someone for the first time. They barely make eye contact, speak very quietly, and keep looking at their phone.</p>
+    </div>
+    <p style="font-weight:600; margin-top:1rem;">What is your FIRST impression?</p>
+    <div class="options-grid" id="r1-options">
+      <div class="option-item" data-opt="A"><span class="option-letter">A</span> Shy</div>
+      <div class="option-item" data-opt="B"><span class="option-letter">B</span> Uninterested</div>
+      <div class="option-item" data-opt="C"><span class="option-letter">C</span> Nervous</div>
+      <div class="option-item" data-opt="D"><span class="option-letter">D</span> Rude</div>
+    </div>
+    <button class="btn" id="r1-submit" disabled>Submit Vote</button>
+    <div id="r1-results" style="display:none;">
+      <div class="result-box">
+        <span>📊 Audience Results — Demo</span>
+        <span class="demo-badge">Simulated</span>
+      </div>
+      <div class="result-bars" id="r1-bars"></div>
+      <p style="font-style:italic; margin-top:1.2rem; color: var(--text-secondary);">"Interesting. Different people can interpret the same behavior differently."</p>
+      <button class="btn" id="toRound2Btn" style="margin-top:1.5rem;">Continue to Round 2 →</button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 2: ROUND 2 ========== -->
+  <div class="screen" id="screen-round2">
+    <h2>Round 2 — What Did You Notice? 🧠</h2>
+    <div class="card" style="background: var(--bg-elevated);">
+      <p>The person barely makes eye contact, speaks quietly, and keeps looking at their phone.</p>
+    </div>
+    <p style="font-weight:600; margin-top:1rem;">What influenced your first impression most?</p>
+    <div class="options-grid" id="r2-options">
+      <div class="option-item" data-opt="A"><span class="option-letter">A</span> Eye contact</div>
+      <div class="option-item" data-opt="B"><span class="option-letter">B</span> Tone of voice</div>
+      <div class="option-item" data-opt="C"><span class="option-letter">C</span> Behavior/actions</div>
+      <div class="option-item" data-opt="D"><span class="option-letter">D</span> Facial expression/body language</div>
+      <div class="option-item" data-opt="E"><span class="option-letter">E</span> Overall situation</div>
+    </div>
+    <button class="btn" id="r2-submit" disabled>Submit Vote</button>
+    <div id="r2-results" style="display:none;">
+      <div class="result-box"><span>📊 Audience Results — Demo</span><span class="demo-badge">Simulated</span></div>
+      <div class="result-bars" id="r2-bars"></div>
+      <div class="obs-interp">
+        <div class="obs-box"><strong>OBSERVATION</strong><br>“They didn't make much eye contact.”</div>
+        <div class="arrow-vs">≠</div>
+        <div class="interp-box"><strong>INTERPRETATION</strong><br>“They must be rude.”</div>
+      </div>
+      <p><strong>Observation describes what happened. Interpretation explains what we think it means.</strong></p>
+      <p class="italic-message" style="font-size:1.1rem; margin:0.8rem 0;">These are not the same.</p>
+      <button class="btn" id="toRound3Btn" style="margin-top:1.2rem;">Continue to Round 3 →</button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 3: ROUND 3 ========== -->
+  <div class="screen" id="screen-round3">
+    <h2>Round 3 — The Plot Twist 🔄</h2>
+    <div class="card scenario-card">
+      <p>The person was quiet, avoided eye contact, and kept looking at their phone.</p>
+    </div>
+    <div class="card" style="background: rgba(58, 175, 169, 0.1); border-color: rgba(58, 175, 169, 0.4);">
+      <p><strong>New information:</strong> They weren't ignoring everyone. It was their first day, and they were nervous and worried about speaking in front of new people.</p>
+    </div>
+    <p style="font-weight:600;">Did your impression change?</p>
+    <div class="options-grid" id="r3-options">
+      <div class="option-item" data-opt="A"><span class="option-letter">A</span> Completely</div>
+      <div class="option-item" data-opt="B"><span class="option-letter">B</span> Somewhat</div>
+      <div class="option-item" data-opt="C"><span class="option-letter">C</span> Not really</div>
+      <div class="option-item" data-opt="D"><span class="option-letter">D</span> I realize my first impression was probably wrong</div>
+    </div>
+    <button class="btn" id="r3-submit" disabled>Submit Vote</button>
+    <div id="r3-results" style="display:none;">
+      <div class="result-box"><span>📊 Audience Results — Demo</span><span class="demo-badge">Simulated</span></div>
+      <div class="result-bars" id="r3-bars"></div>
+      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:0.8rem; margin:1.5rem 0;">
+        <span class="influence-pill" style="background:var(--accent-blue); color:white; border:none;">FIRST IMPRESSION</span> →
+        <span class="influence-pill" style="background:var(--accent-gold); color:var(--bg-deep); border:none;">NEW INFORMATION</span> →
+        <span class="influence-pill" style="background:var(--accent-teal); color:white; border:none;">REVISED IMPRESSION</span>
+      </div>
+      <p><strong>New information changes meaning.</strong></p>
+      <p>Sometimes behavior stays the same; what changes is the story we tell ourselves.</p>
+      <button class="btn" id="toRound4Btn" style="margin-top:1.2rem;">Continue to Round 4 →</button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 4: ROUND 4 ========== -->
+  <div class="screen" id="screen-round4">
+    <h2>Round 4 — Create the Impression 🎭</h2>
+    <div class="card" style="background: var(--bg-elevated);">
+      <p>You are joining a new group. Nobody knows you. You have about 30 seconds to introduce yourself.</p>
+    </div>
+    <p style="font-weight:600;">Which approach most likely creates a positive first impression?</p>
+    <div class="options-grid" id="r4-options">
+      <div class="option-item" data-opt="A"><span class="option-letter">A</span> Speak quickly to show confidence</div>
+      <div class="option-item" data-opt="B"><span class="option-letter">B</span> Smile, greet people, and introduce yourself clearly</div>
+      <div class="option-item" data-opt="C"><span class="option-letter">C</span> Stay quiet</div>
+      <div class="option-item" data-opt="D"><span class="option-letter">D</span> Try hard to impress</div>
+    </div>
+    <button class="btn" id="r4-submit" disabled>Submit Vote</button>
+    <div id="r4-results" style="display:none;">
+      <div class="result-box"><span>📊 Audience Results — Demo</span><span class="demo-badge">Simulated</span></div>
+      <div class="result-bars" id="r4-bars"></div>
+      <p style="font-size:1.1rem;">A positive impression isn't about perfection.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin:1rem 0;">
+        <span class="influence-pill" style="background: rgba(58, 175, 169, 0.2); color: var(--accent-teal);">Respectful</span>
+        <span class="influence-pill" style="background: rgba(58, 175, 169, 0.2); color: var(--accent-teal);">Attentive</span>
+        <span class="influence-pill" style="background: rgba(58, 175, 169, 0.2); color: var(--accent-teal);">Clear</span>
+        <span class="influence-pill" style="background: rgba(58, 175, 169, 0.2); color: var(--accent-teal);">Genuine</span>
+      </div>
+      <div style="display:flex; justify-content:center; gap:1rem; font-weight:700; font-size:1.2rem; margin:1rem 0;">
+        <span>CONFIDENCE</span> <span style="color:var(--accent-gold);">≠</span> <span>TRYING TOO HARD</span>
+      </div>
+      <button class="btn" id="toDetectiveBtn" style="margin-top:1.2rem;">Enter First Impression Detective →</button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 5: DETECTIVE ========== -->
+  <div class="screen" id="screen-detective">
+    <h2>First Impression Detective 🔎</h2>
+    <p style="font-size:1.1rem;">Distinguish observations from interpretations.</p>
+    <div class="card" style="background: rgba(74, 144, 217, 0.08); border-left:6px solid var(--accent-gold);">
+      <p><strong>Scenario:</strong> Sam enters a room, says hello quietly, avoids eye contact for a moment, and sits near the back of the room.</p>
+    </div>
+    <p style="margin-bottom:0.5rem;">Classify each statement:</p>
+    <div class="detective-grid" id="detectiveGrid">
+      <!-- built by JS -->
+    </div>
+    <button class="btn" id="checkDetectiveBtn">Check Answers</button>
+    <div id="detectiveFeedback" style="margin-top:1.5rem; display:none;">
+      <div class="result-box" style="background:var(--accent-blue); border-color: var(--accent-bright);"><span id="detectiveScore">You got 5 / 6 correct.</span></div>
+      <p><strong>Observation describes what happened.</strong><br><strong>Interpretation explains what we think it means.</strong></p>
+      <p style="font-style:italic; color: var(--text-secondary);">Awareness can help us slow down before jumping to conclusions.</p>
+      <button class="btn" id="toFinalExperimentBtn" style="margin-top:1.5rem;">Start the Final Experiment 🧪</button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 6: FINAL EXPERIMENT (AMINA) ========== -->
+  <div class="screen" id="screen-experiment">
+    <h2>Final Experiment — First Impression Experiment 🧪</h2>
+    <!-- Step 1 -->
+    <div class="experiment-step" id="exp-step1">
+      <span class="step-label">STEP 1 — INITIAL IMPRESSION</span>
+      <h3 style="margin-top:0;">Meet Amina.</h3>
+      <p>Amina joins a new group. She doesn't speak much, keeps to herself, and doesn't join the first conversation.</p>
+      <p style="font-weight:600; margin-top:1rem;">What is your first impression?</p>
+      <div class="options-grid" id="exp1-options">
+        <div class="option-item" data-opt="A"><span class="option-letter">A</span> Shy</div>
+        <div class="option-item" data-opt="B"><span class="option-letter">B</span> Unfriendly</div>
+        <div class="option-item" data-opt="C"><span class="option-letter">C</span> Nervous</div>
+        <div class="option-item" data-opt="D"><span class="option-letter">D</span> Quiet but observant</div>
+      </div>
+      <button class="btn" id="exp1-reveal" disabled>REVEAL MORE →</button>
+    </div>
+    <!-- Step 2 -->
+    <div class="experiment-step" id="exp-step2" style="display:none;">
+      <span class="step-label">STEP 2 — NEW INFORMATION</span>
+      <p class="quote">Amina is new to the group and doesn't know anyone yet.</p>
+      <p style="font-weight:600;">Does your impression change?</p>
+      <div class="options-grid" id="exp2-options">
+        <div class="option-item" data-opt="A"><span class="option-letter">A</span> Yes, completely</div>
+        <div class="option-item" data-opt="B"><span class="option-letter">B</span> Yes, somewhat</div>
+        <div class="option-item" data-opt="C"><span class="option-letter">C</span> Not really</div>
+        <div class="option-item" data-opt="D"><span class="option-letter">D</span> Not sure</div>
+      </div>
+      <button class="btn" id="exp2-reveal" disabled>REVEAL MORE →</button>
+    </div>
+    <!-- Step 3 -->
+    <div class="experiment-step" id="exp-step3" style="display:none;">
+      <span class="step-label">STEP 3 — FINAL REVEAL</span>
+      <p class="quote">You later discover that Amina is actually very confident, but she prefers to listen before speaking.</p>
+      <p style="font-weight:600;">Does your impression change again?</p>
+      <div class="options-grid" id="exp3-options">
+        <div class="option-item" data-opt="A"><span class="option-letter">A</span> Definitely</div>
+        <div class="option-item" data-opt="B"><span class="option-letter">B</span> Probably</div>
+        <div class="option-item" data-opt="C"><span class="option-letter">C</span> Not much</div>
+        <div class="option-item" data-opt="D"><span class="option-letter">D</span> I'm surprised by how different the first impression was</div>
+      </div>
+      <button class="btn" id="exp3-finish" disabled>See conclusion</button>
+    </div>
+    <!-- Conclusion -->
+    <div id="exp-conclusion" style="display:none; margin-top:1.5rem;">
+      <div class="card" style="background: rgba(58, 175, 169, 0.15); border-color: var(--accent-teal);">
+        <p><strong>Your first impression was based on limited information. As information changed, your interpretation changed too.</strong></p>
+      </div>
+      <button class="btn" id="toReflectionBtn" style="margin-top:1rem;">Go to Final Reflection 🌱</button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 7: REFLECTION ========== -->
+  <div class="screen" id="screen-reflection">
+    <h2>Final Reflection 🌱</h2>
+    <!-- Question 1 -->
+    <div class="card">
+      <p style="font-weight:600;">After this workshop, how confident are you in your first impressions?</p>
+      <div class="options-grid" id="ref1-options">
+        <div class="option-item" data-opt="A"><span class="option-letter">A</span> Very confident</div>
+        <div class="option-item" data-opt="B"><span class="option-letter">B</span> Somewhat confident</div>
+        <div class="option-item" data-opt="C"><span class="option-letter">C</span> Less confident now</div>
+        <div class="option-item" data-opt="D"><span class="option-letter">D</span> I will question them more</div>
+      </div>
+      <button class="btn" id="ref1-submit" disabled>Submit Vote</button>
+      <div id="ref1-results" style="display:none; margin-top:1.5rem;">
+        <div class="result-box"><span>📊 Audience Results — Demo</span><span class="demo-badge">Simulated</span></div>
+        <div class="result-bars" id="ref1-bars"></div>
+      </div>
+    </div>
+    <!-- Question 2 -->
+    <div class="card" id="ref2-card" style="display:none; margin-top:1rem;">
+      <p style="font-weight:600;">What will you try to do differently?</p>
+      <div class="options-grid" id="ref2-options">
+        <div class="option-item" data-opt="A"><span class="option-letter">A</span> Observe before judging</div>
+        <div class="option-item" data-opt="B"><span class="option-letter">B</span> Ask for more information</div>
+        <div class="option-item" data-opt="C"><span class="option-letter">C</span> Pay attention to assumptions</div>
+        <div class="option-item" data-opt="D"><span class="option-letter">D</span> Give people more time</div>
+        <div class="option-item" data-opt="E"><span class="option-letter">E</span> All of the above</div>
+      </div>
+      <button class="btn" id="ref2-submit" disabled>Submit Vote</button>
+      <div id="ref2-results" style="display:none; margin-top:1.5rem;">
+        <div class="result-box"><span>📊 Audience Results — Demo</span><span class="demo-badge">Simulated</span></div>
+        <div class="result-bars" id="ref2-bars"></div>
+      </div>
+    </div>
+    <div id="toClosingWrap" style="display:none; margin-top:1.8rem;">
+      <button class="btn" id="toClosingBtn">Continue to Closing →</button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 8: CLOSING ========== -->
+  <div class="screen" id="screen-closing">
+    <div class="center">
+      <h1 style="font-size:1.8rem; letter-spacing:0.02em;">THE PSYCHOLOGY OF FIRST IMPRESSIONS</h1>
+      <div class="closing-message">Observe. Question. Understand.</div>
+      <p style="font-size:1.5rem; font-weight:800; margin:1.5rem 0;">FIRST IMPRESSIONS ARE FAST.<br>THEY ARE NOT ALWAYS COMPLETE.</p>
+      <p style="max-width:600px; margin:1rem auto; color: var(--text-secondary);">Your first impression was based on limited information. As information changed, your interpretation changed too.</p>
+      <p>First impressions can be influenced by:</p>
+      <div class="influences-list">
+        <span class="influence-pill">limited information</span>
+        <span class="influence-pill">assumptions</span>
+        <span class="influence-pill">biases</span>
+      </div>
+      <p style="font-size:1.2rem; margin:2rem 0 1rem;">Thank you for being part of the First Impression Lab.</p>
+      <div class="host-tag" style="font-size:1rem;">Hosted by <strong>Manahil Barakzai</strong> · Afghanistan Changemakers</div>
+      <div class="btn-group" style="justify-content:center; margin-top:2rem;">
+        <button class="btn" id="restartBtn">Restart Experience</button>
+        <button class="btn btn-secondary" id="backToStartBtn">Back to Beginning</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function() {
+    // ----- GLOBAL STATE -----
+    const state = {
+      currentStage: 0,
+      selectedOptions: {},
+    };
+
+    // ----- DOM ELEMENTS -----
+    const screens = {
+      0: document.getElementById('screen-start'),
+      1: document.getElementById('screen-round1'),
+      2: document.getElementById('screen-round2'),
+      3: document.getElementById('screen-round3'),
+      4: document.getElementById('screen-round4'),
+      5: document.getElementById('screen-detective'),
+      6: document.getElementById('screen-experiment'),
+      7: document.getElementById('screen-reflection'),
+      8: document.getElementById('screen-closing')
+    };
+
+    const stagePills = document.querySelectorAll('.stage-pill');
+
+    // ----- NAVIGATION & PROGRESS -----
+    function showScreen(stageIndex) {
+      Object.values(screens).forEach(s => s.classList.remove('active'));
+      if (screens[stageIndex]) screens[stageIndex].classList.add('active');
+      state.currentStage = stageIndex;
+
+      stagePills.forEach((pill, idx) => {
+        pill.classList.remove('active', 'completed');
+        if (idx < stageIndex) pill.classList.add('completed');
+        if (idx === stageIndex) pill.classList.add('active');
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToStage(idx) {
+      showScreen(idx);
+    }
+
+    // ----- UTILS: option selection for voting -----
+    function setupOptionGroup(groupId, callback) {
+      const group = document.getElementById(groupId);
+      if (!group) return;
+      const items = group.querySelectorAll('.option-item');
+      items.forEach(item => {
+        item.addEventListener('click', function() {
+          items.forEach(i => i.classList.remove('selected'));
+          this.classList.add('selected');
+          const opt = this.dataset.opt;
+          if (callback) callback(opt);
+        });
+      });
+    }
+
+    function getSelectedOption(groupId) {
+      const group = document.getElementById(groupId);
+      if (!group) return null;
+      const selected = group.querySelector('.option-item.selected');
+      return selected ? selected.dataset.opt : null;
+    }
+
+    function resetOptions(groupId) {
+      const group = document.getElementById(groupId);
+      if (!group) return;
+      group.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
+    }
+
+    // ----- DEMO BARS RENDERER -----
+    function renderBars(containerId, percentages) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = '';
+      percentages.forEach(({ label, value, letter }) => {
+        const row = document.createElement('div');
+        row.className = 'bar-row';
+        row.innerHTML = `
+          <span class="bar-label">${letter ? letter + '. ' : ''}${label}</span>
+          <div class="bar-track"><div class="bar-fill" style="width:0%;">${value}%</div></div>
+          <span class="bar-value">${value}%</span>
+        `;
+        container.appendChild(row);
+      });
+      setTimeout(() => {
+        container.querySelectorAll('.bar-fill').forEach(fill => {
+          const targetWidth = fill.textContent.trim().replace('%','');
+          fill.style.width = targetWidth + '%';
+        });
+      }, 50);
+    }
+
+    // ----- DEMO DATA (simulated) -----
+    const demoResults = {
+      r1: [
+        { label: 'Shy', value: 38, letter: 'A' },
+        { label: 'Uninterested', value: 22, letter: 'B' },
+        { label: 'Nervous', value: 28, letter: 'C' },
+        { label: 'Rude', value: 12, letter: 'D' }
+      ],
+      r2: [
+        { label: 'Eye contact', value: 30, letter: 'A' },
+        { label: 'Tone of voice', value: 18, letter: 'B' },
+        { label: 'Behavior/actions', value: 25, letter: 'C' },
+        { label: 'Facial exp./body', value: 17, letter: 'D' },
+        { label: 'Overall situation', value: 10, letter: 'E' }
+      ],
+      r3: [
+        { label: 'Completely', value: 42, letter: 'A' },
+        { label: 'Somewhat', value: 35, letter: 'B' },
+        { label: 'Not really', value: 13, letter: 'C' },
+        { label: 'Realize wrong', value: 10, letter: 'D' }
+      ],
+      r4: [
+        { label: 'Speak quickly', value: 10, letter: 'A' },
+        { label: 'Smile & greet', value: 68, letter: 'B' },
+        { label: 'Stay quiet', value: 5, letter: 'C' },
+        { label: 'Try hard', value: 17, letter: 'D' }
+      ],
+      ref1: [
+        { label: 'Very confident', value: 15, letter: 'A' },
+        { label: 'Somewhat confident', value: 38, letter: 'B' },
+        { label: 'Less confident', value: 27, letter: 'C' },
+        { label: 'Question them more', value: 20, letter: 'D' }
+      ],
+      ref2: [
+        { label: 'Observe before judging', value: 24, letter: 'A' },
+        { label: 'Ask for info', value: 18, letter: 'B' },
+        { label: 'Notice assumptions', value: 16, letter: 'C' },
+        { label: 'Give more time', value: 12, letter: 'D' },
+        { label: 'All of the above', value: 30, letter: 'E' }
+      ]
+    };
+
+    // ----- ROUND 1 -----
+    setupOptionGroup('r1-options', (opt) => {
+      document.getElementById('r1-submit').disabled = false;
+    });
+    document.getElementById('r1-submit').addEventListener('click', () => {
+      document.getElementById('r1-results').style.display = 'block';
+      document.getElementById('r1-submit').disabled = true;
+      renderBars('r1-bars', demoResults.r1);
+    });
+    document.getElementById('toRound2Btn').addEventListener('click', () => {
+      goToStage(2);
+    });
+
+    // ----- ROUND 2 -----
+    setupOptionGroup('r2-options', () => {
+      document.getElementById('r2-submit').disabled = false;
+    });
+    document.getElementById('r2-submit').addEventListener('click', () => {
+      document.getElementById('r2-results').style.display = 'block';
+      document.getElementById('r2-submit').disabled = true;
+      renderBars('r2-bars', demoResults.r2);
+    });
+    document.getElementById('toRound3Btn').addEventListener('click', () => goToStage(3));
+
+    // ----- ROUND 3 -----
+    setupOptionGroup('r3-options', () => {
+      document.getElementById('r3-submit').disabled = false;
+    });
+    document.getElementById('r3-submit').addEventListener('click', () => {
+      document.getElementById('r3-results').style.display = 'block';
+      document.getElementById('r3-submit').disabled = true;
+      renderBars('r3-bars', demoResults.r3);
+    });
+    document.getElementById('toRound4Btn').addEventListener('click', () => goToStage(4));
+
+    // ----- ROUND 4 -----
+    setupOptionGroup('r4-options', () => {
+      document.getElementById('r4-submit').disabled = false;
+    });
+    document.getElementById('r4-submit').addEventListener('click', () => {
+      document.getElementById('r4-results').style.display = 'block';
+      document.getElementById('r4-submit').disabled = true;
+      renderBars('r4-bars', demoResults.r4);
+    });
+    document.getElementById('toDetectiveBtn').addEventListener('click', () => goToStage(5));
+
+    // ----- DETECTIVE -----
+    const detectiveStatements = [
+      { text: 'Sam said hello quietly.', correct: 'observation' },
+      { text: 'Sam is shy.', correct: 'interpretation' },
+      { text: 'Sam avoided eye contact.', correct: 'observation' },
+      { text: 'Sam is unfriendly.', correct: 'interpretation' },
+      { text: 'Sam sat near the back.', correct: 'observation' },
+      { text: "Sam doesn't want to talk to anyone.", correct: 'interpretation' }
+    ];
+
+    function buildDetectiveGrid() {
+      const grid = document.getElementById('detectiveGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      detectiveStatements.forEach((stmt, idx) => {
+        const card = document.createElement('div');
+        card.className = 'detective-card';
+        card.dataset.index = idx;
+        card.innerHTML = `
+          <div class="statement">${stmt.text}</div>
+          <div class="classify-buttons">
+            <button class="classify-btn" data-class="observation">OBSERVATION</button>
+            <button class="classify-btn" data-class="interpretation">INTERPRETATION</button>
+          </div>
+          <div class="card-feedback" id="feedback-${idx}"></div>
+        `;
+        grid.appendChild(card);
+      });
+
+      grid.querySelectorAll('.classify-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const card = this.closest('.detective-card');
+          const btns = card.querySelectorAll('.classify-btn');
+          btns.forEach(b => b.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
+    }
+
+    document.getElementById('checkDetectiveBtn').addEventListener('click', () => {
+      const cards = document.querySelectorAll('.detective-card');
+      let correctCount = 0;
+      cards.forEach((card, idx) => {
+        const selectedBtn = card.querySelector('.classify-btn.selected');
+        const userChoice = selectedBtn ? selectedBtn.dataset.class : null;
+        const correct = detectiveStatements[idx].correct;
+        const feedbackEl = card.querySelector('.card-feedback');
+        card.classList.remove('correct', 'incorrect');
+
+        if (userChoice === correct) {
+          correctCount++;
+          card.classList.add('correct');
+          feedbackEl.innerHTML = '<span class="feedback-correct">✓ Correct</span>';
+        } else {
+          card.classList.add('incorrect');
+          let correctLabel = correct === 'observation' ? 'Observation' : 'Interpretation';
+          feedbackEl.innerHTML = `<span class="feedback-incorrect">✗ ${correctLabel}</span>`;
+        }
+      });
+
+      document.getElementById('detectiveScore').textContent = `You got ${correctCount} / 6 correct.`;
+      document.getElementById('detectiveFeedback').style.display = 'block';
+    });
+
+    buildDetectiveGrid();
+
+    document.getElementById('toFinalExperimentBtn').addEventListener('click', () => goToStage(6));
+
+    // ----- FINAL EXPERIMENT (AMINA) -----
+    setupOptionGroup('exp1-options', () => {
+      document.getElementById('exp1-reveal').disabled = false;
+    });
+    document.getElementById('exp1-reveal').addEventListener('click', () => {
+      document.getElementById('exp-step1').style.display = 'none';
+      document.getElementById('exp-step2').style.display = 'block';
+    });
+
+    setupOptionGroup('exp2-options', () => {
+      document.getElementById('exp2-reveal').disabled = false;
+    });
+    document.getElementById('exp2-reveal').addEventListener('click', () => {
+      document.getElementById('exp-step2').style.display = 'none';
+      document.getElementById('exp-step3').style.display = 'block';
+    });
+
+    setupOptionGroup('exp3-options', () => {
+      document.getElementById('exp3-finish').disabled = false;
+    });
+    document.getElementById('exp3-finish').addEventListener('click', () => {
+      document.getElementById('exp-step3').style.display = 'none';
+      document.getElementById('exp-conclusion').style.display = 'block';
+    });
+
+    document.getElementById('toReflectionBtn').addEventListener('click', () => goToStage(7));
+
+    // ----- REFLECTION Q1 -----
+    setupOptionGroup('ref1-options', () => {
+      document.getElementById('ref1-submit').disabled = false;
+    });
+    document.getElementById('ref1-submit').addEventListener('click', () => {
+      document.getElementById('ref1-results').style.display = 'block';
+      document.getElementById('ref1-submit').disabled = true;
+      renderBars('ref1-bars', demoResults.ref1);
+      document.getElementById('ref2-card').style.display = 'block';
+    });
+
+    // ----- REFLECTION Q2 -----
+    setupOptionGroup('ref2-options', () => {
+      document.getElementById('ref2-submit').disabled = false;
+    });
+    document.getElementById('ref2-submit').addEventListener('click', () => {
+      document.getElementById('ref2-results').style.display = 'block';
+      document.getElementById('ref2-submit').disabled = true;
+      renderBars('ref2-bars', demoResults.ref2);
+      document.getElementById('toClosingWrap').style.display = 'block';
+    });
+
+    document.getElementById('toClosingBtn').addEventListener('click', () => goToStage(8));
+
+    // ----- CLOSING BUTTONS -----
+    document.getElementById('restartBtn').addEventListener('click', () => {
+      resetExperience();
+    });
+    document.getElementById('backToStartBtn').addEventListener('click', () => {
+      resetExperience();
+    });
+
+    function resetExperience() {
+      document.querySelectorAll('.options-grid .option-item').forEach(i => i.classList.remove('selected'));
+      document.querySelectorAll('.btn').forEach(btn => {
+        if (btn.id && (btn.id.includes('submit') || btn.id.includes('reveal'))) {
+          btn.disabled = true;
+        }
+      });
+      const resultSections = ['r1-results','r2-results','r3-results','r4-results','detectiveFeedback','ref1-results','ref2-results','exp-step2','exp-step3','exp-conclusion'];
+      resultSections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      document.getElementById('exp-step1').style.display = 'block';
+      document.getElementById('exp-step2').style.display = 'none';
+      document.getElementById('exp-step3').style.display = 'none';
+      document.getElementById('exp-conclusion').style.display = 'none';
+      document.getElementById('ref2-card').style.display = 'none';
+      document.getElementById('toClosingWrap').style.display = 'none';
+      document.querySelectorAll('.detective-card').forEach(card => {
+        card.classList.remove('correct', 'incorrect');
+        card.querySelectorAll('.classify-btn').forEach(b => b.classList.remove('selected'));
+        const fb = card.querySelector('.card-feedback');
+        if (fb) fb.innerHTML = '';
+      });
+      document.getElementById('detectiveFeedback').style.display = 'none';
+
+      goToStage(0);
+    }
+
+    goToStage(0);
+
+    document.getElementById('startBtn').addEventListener('click', () => goToStage(1));
+
+    // Initial disabled states
+    document.getElementById('r1-submit').disabled = true;
+    document.getElementById('r2-submit').disabled = true;
+    document.getElementById('r3-submit').disabled = true;
+    document.getElementById('r4-submit').disabled = true;
+    document.getElementById('exp1-reveal').disabled = true;
+    document.getElementById('exp2-reveal').disabled = true;
+    document.getElementById('exp3-finish').disabled = true;
+    document.getElementById('ref1-submit').disabled = true;
+    document.getElementById('ref2-submit').disabled = true;
+
+  })();
+</script>
+</body>
+</html>
